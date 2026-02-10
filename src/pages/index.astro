@@ -1,0 +1,244 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import heroBg from '../assets/nepal.jpg';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+
+const posts = await getCollection('blog');
+const sorted = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const latestPost = sorted[0];
+const latestDate = latestPost ? latestPost.data.pubDate.toLocaleDateString('id-ID', {
+	day: '2-digit',
+	month: 'short',
+	year: 'numeric',
+}) : '-';
+const years = posts.map((post) => post.data.pubDate.getFullYear());
+const firstYear = years.length ? Math.min(...years) : new Date().getFullYear();
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+		<Header />
+		<main class="home">
+			<section class="hero">
+				<div class="hero__overlay"></div>
+				<div class="hero__content">
+					<p class="eyebrow">Personal Blog</p>
+					<h1>My Blog Path</h1>
+					<p class="hero__subtitle">
+						Ruang sederhana untuk membagikan pengalaman, ringkasan belajar, dan hal menarik yang saya temui.
+					</p>
+					<div class="hero__actions">
+						<a class="btn btn--primary" href="/blog">Baca Blog</a>
+						<a class="btn btn--ghost" href="/about">Tentang Saya</a>
+					</div>
+				</div>
+			</section>
+
+			<div class="divider"></div>
+
+			<section class="stats">
+				<div class="stat">
+					<span class="stat__value">{posts.length}</span>
+					<span class="stat__label">Artikel</span>
+				</div>
+				<div class="stat">
+					<span class="stat__value">{latestDate}</span>
+					<span class="stat__label">Update Terbaru</span>
+				</div>
+				<div class="stat">
+					<span class="stat__value">{firstYear}</span>
+					<span class="stat__label">Mulai Menulis</span>
+				</div>
+			</section>
+
+			<div class="divider divider--soft"></div>
+
+			<section class="highlights">
+				<h2>Sorotan Blog</h2>
+				<div class="highlight__grid">
+					<span>Ringkasan Belajar</span>
+					<span>Catatan Proyek</span>
+					<span>Eksperimen Kecil</span>
+					<span>Tips Produktivitas</span>
+					<span>Referensi Tools</span>
+					<span>Opini Pribadi</span>
+				</div>
+			</section>
+		</main>
+		<Footer />
+		<style>
+			@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&family=Newsreader:wght@400;700&display=swap');
+
+			:global(:root) {
+				--ink: #101416;
+				--slate: #1f2a30;
+				--accent: #2f7f9d;
+				--accent-soft: rgba(47, 127, 157, 0.2);
+				--cream: #f4f1ec;
+				--smoke: rgba(255, 255, 255, 0.85);
+			}
+
+			:global(body) {
+				font-family: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+				background: #f4f1ec;
+			}
+
+			.home {
+				width: 100%;
+				max-width: none;
+				margin: 0;
+				padding: 0;
+			}
+
+			.hero {
+				position: relative;
+				min-height: 70vh;
+				display: grid;
+				place-items: center;
+				padding: 6rem 1.5rem;
+				background-image: url(${heroBg.src});
+				background-size: cover;
+				background-position: center;
+				overflow: hidden;
+			}
+
+			.hero__overlay {
+				position: absolute;
+				inset: 0;
+				background: linear-gradient(180deg, rgba(10, 14, 18, 0.55), rgba(10, 14, 18, 0.75));
+			}
+
+			.hero__content {
+				position: relative;
+				z-index: 1;
+				text-align: center;
+				max-width: 720px;
+				color: #f8f6f3;
+			}
+
+			.eyebrow {
+				letter-spacing: 0.35em;
+				text-transform: uppercase;
+				font-size: 0.7rem;
+				color: var(--smoke);
+				margin: 0 0 1rem;
+			}
+
+			h1 {
+				font-family: 'Newsreader', 'Times New Roman', serif;
+				font-size: clamp(2.4rem, 5vw, 4rem);
+				margin: 0 0 1rem;
+			}
+
+			.hero__subtitle {
+				font-size: 1.1rem;
+				line-height: 1.7;
+				margin: 0 0 2rem;
+				color: var(--smoke);
+			}
+
+			.hero__actions {
+				display: flex;
+				gap: 1rem;
+				justify-content: center;
+				flex-wrap: wrap;
+			}
+
+			.btn {
+				padding: 0.8rem 2rem;
+				border-radius: 999px;
+				text-decoration: none;
+				font-weight: 600;
+				transition: transform 0.2s ease, box-shadow 0.2s ease;
+			}
+
+			.btn--primary {
+				background: var(--accent);
+				color: #fff;
+				box-shadow: 0 12px 24px rgba(47, 127, 157, 0.35);
+			}
+
+			.btn--ghost {
+				border: 1px solid rgba(255, 255, 255, 0.6);
+				color: #fff;
+			}
+
+			.btn:hover {
+				transform: translateY(-2px);
+			}
+
+			.divider {
+				height: 1px;
+				width: min(1100px, 90%);
+				margin: 3rem auto;
+				background: linear-gradient(90deg, transparent, rgba(16, 20, 22, 0.35), transparent);
+			}
+
+			.divider--soft {
+				background: linear-gradient(90deg, transparent, rgba(16, 20, 22, 0.2), transparent);
+			}
+
+			.stats {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+				gap: 2rem;
+				width: min(1100px, 90%);
+				margin: 0 auto 2rem;
+				text-align: center;
+			}
+
+			.stat__value {
+				display: block;
+				font-size: 1.8rem;
+				font-weight: 700;
+				color: var(--slate);
+			}
+
+			.stat__label {
+				display: block;
+				margin-top: 0.5rem;
+				color: var(--ink);
+				opacity: 0.8;
+			}
+
+			.highlights {
+				width: min(1100px, 90%);
+				margin: 0 auto 4rem;
+			}
+
+			h2 {
+				font-family: 'Newsreader', 'Times New Roman', serif;
+				margin: 0 0 1.5rem;
+				color: var(--ink);
+			}
+
+			.highlight__grid {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.75rem;
+			}
+
+			.highlight__grid span {
+				padding: 0.5rem 1.2rem;
+				border: 1px solid rgba(16, 20, 22, 0.2);
+				border-radius: 999px;
+				background: #fff;
+				font-size: 0.95rem;
+			}
+
+			@media (max-width: 720px) {
+				.hero {
+					min-height: 60vh;
+					padding: 4.5rem 1.5rem;
+				}
+			}
+		</style>
+	</body>
+</html>
