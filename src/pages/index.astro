@@ -16,6 +16,7 @@ const latestDate = latestPost ? latestPost.data.pubDate.toLocaleDateString('id-I
 }) : '-';
 const years = posts.map((post) => post.data.pubDate.getFullYear());
 const firstYear = years.length ? Math.min(...years) : new Date().getFullYear();
+const base = import.meta.env.BASE_URL;
 ---
 
 <!doctype html>
@@ -35,8 +36,8 @@ const firstYear = years.length ? Math.min(...years) : new Date().getFullYear();
 						Ruang sederhana untuk membagikan pengalaman, ringkasan belajar, dan hal menarik yang saya temui.
 					</p>
 					<div class="hero__actions">
-						<a class="btn btn--primary" href="/blog">Baca Blog</a>
-						<a class="btn btn--ghost" href="/about">Tentang Saya</a>
+						<a class="btn btn--primary" href={`${base}blog/`}>Baca Blog</a>
+						<a class="btn btn--ghost" href={`${base}about/`}>Tentang Saya</a>
 					</div>
 				</div>
 			</section>
