@@ -6,10 +6,15 @@ import { defineConfig } from 'astro/config';
 
 
 // https://astro.build/config
+const repo = process.env.GITHUB_REPOSITORY?.split('/')[1] ?? 'Fal.github.io';
+const owner = process.env.GITHUB_REPOSITORY_OWNER ?? 'vickycliffjapardhana';
+const isUserSite = repo.toLowerCase() === `${owner.toLowerCase()}.github.io`;
+const base = isUserSite ? '/' : `/${repo}/`;
+
 export default defineConfig({
-	site: 'https://vickycliffjapardhana.github.io',
-	base: '/Fal_blog_git',
-  output: 'static',
+	site: `https://${owner}.github.io${base}`,
+	base,
+	output: 'static',
 	integrations: [mdx(), sitemap(),],
 	
 });
