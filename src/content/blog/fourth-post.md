@@ -2,7 +2,7 @@
 title: 'Modern OCR: Complete Guide to Optical Character Recognition with AI and Web Integration'
 description: 'A practical overview of OCR, how it works, key tools, challenges, and real-world use cases.'
 pubDate: 'Feb 25 2026'
-heroImage: '../../assets/ocr.png'
+heroImage: '../../assets/OCR.png'
 ---
 
 OCR (Optical Character Recognition) is a technology that enables computers to read text from images or scanned documents.
