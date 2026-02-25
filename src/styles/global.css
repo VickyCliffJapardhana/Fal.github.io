@@ -111,11 +111,18 @@ code {
 	border-radius: 2px;
 }
 pre {
-	padding: 1.5em;
-	border-radius: 8px;
+	padding: 1.25em 1.5em;
+	margin: 1.25em 0 2em;
+	border-radius: 12px;
+	overflow-x: auto;
+	line-height: 1.55;
 }
 pre > code {
 	all: unset;
+	display: block;
+	font-size: 0.9em;
+	font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+		"Courier New", monospace;
 }
 blockquote {
 	border-left: 4px solid var(--accent);
